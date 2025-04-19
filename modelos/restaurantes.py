@@ -1,19 +1,19 @@
+from modelos.avaliacao import Avaliacao
+
+
 class Restaurante:
-    """Classe Restaurante
-    Representa um restaurante com nome, categoria e estado (ativo/inativo).
+    """Classe Restaurante representa um restaurante.
+    O restaurante é composto por um nome, uma categoria e uma lista de avaliações.
     """
 
-    """Atributos da classe:
-    - restaurantes: lista de todos os restaurantes cadastrados.
-
-    Returns:
-        Listagem com todos os restaurantes cadastrados.
+    """Atributos da classe Restaurante:
+    - nome: Nome do restaurante.
     """
     restaurantes = []
 
     def __init__(self, nome, categoria):
-        """Inicializa um novo restaurante com nome e categoria.
-        O nome é convertido para título e a categoria é convertida para maiúsculas.
+        """Inicializa um novo restaurante.
+        O restaurante é composto por um nome, uma categoria e uma lista de avaliações.
 
         Args:
             nome (_type_): _description_
@@ -22,42 +22,71 @@ class Restaurante:
         self._nome = nome.title()
         self._categoria = categoria.upper()
         self._ativo = False
+        self._avaliacao = []
         Restaurante.restaurantes.append(self)
 
-    def _str_(self):
-        """Representação em string do restaurante.
-        Exibe o nome e a categoria do restaurante.
+    def __str__(self):
+        """Representa o restaurante como uma string.
+        O restaurante é composto por um nome e uma categoria.
 
         Returns:
-            Nome | Categoria
+            _type_: _description_
         """
         return f"{self._nome} | {self._categoria}"
 
-    def alternar_estado(self):
-        """Alterna o estado do restaurante entre ativo e inativo.
-        Se o restaurante estiver ativo, ele será inativo e vice-versa.
-        """
-        self._ativo = not self._ativo
-
     @classmethod
     def listar_restaurantes(cls):
-        """Listar todos os restaurantes cadastrados.
-        Exibe o nome, categoria e status (ativo/inativo) de cada restaurante.
+        """Lista todos os restaurantes cadastrados.
+        Esta função é responsável por listar os restaurantes cadastrados.
         """
         print(
-            f"{'Nome do restaurante'.ljust(25)} | {'Categoria'.ljust(25)} | {'Status'}"
+            f"{'Nome do restaurante'.ljust(25)} | {'Categoria'.ljust(25)} | {'Avaliação'.ljust(25)} |{'Status'}"
         )
+
         for restaurante in cls.restaurantes:
             print(
-                f"{restaurante._nome.ljust(25)} | {restaurante._categoria.ljust(25)} | {restaurante.ativo}"
+                f"{restaurante._nome.ljust(25)} | {restaurante._categoria.ljust(25)} | {str(restaurante.media_avaliacoes).ljust(25)} |{restaurante.ativo}"
             )
 
     @property
     def ativo(self):
-        """Retorna o status do restaurante (ativo/inativo).
-        Exibe o status do restaurante de forma legível.
+        """Retorna o estado do restaurante.
+        O estado do restaurante pode ser ativo ou inativo.
 
         Returns:
-            Ativo ou Inativo: O status do restaurante.
+            _type_: _description_
         """
-        return "Ativo" if self._ativo else "Inativo"
+        return "⌧" if self._ativo else "☐"
+
+    @property
+    def media_avaliacoes(self):
+        """Calcula a média das avaliações do restaurante.
+        A média é calculada somando todas as notas e dividindo pelo número de avaliações.
+
+        Returns:
+            Retora um valor inteiro representando a média das avaliações do restaurante.
+        Se não houver avaliações, retorna 0.
+        """
+        if not self._avaliacao:
+            return 0
+        soma_das_notas = sum(avaliacao._nota for avaliacao in self._avaliacao)
+        quantidade_de_notas = len(self._avaliacao)
+        media = round(soma_das_notas / quantidade_de_notas, 1)
+        return media
+
+    def alternar_estado(self):
+        """Altera o estado do restaurante.
+        O estado do restaurante pode ser ativo ou inativo.
+        """
+        self._ativo = not self._ativo
+
+    def receber_avaliacao(self, cliente, nota):
+        """Recebe uma avaliação do restaurante.
+        A avaliação é composta por um cliente e uma nota.
+
+        Args:
+            cliente (_type_): _description_
+            nota (_type_): _description_
+        """
+        avaliacao = Avaliacao(cliente, nota)
+        self._avaliacao.append(avaliacao)

@@ -1,15 +1,14 @@
 from modelos.restaurantes import Restaurante
 
 restaurante_praca = Restaurante("Praça", "Gourmet")
-restaurante_mexicano = Restaurante("Mexican Food", "Mexicana")
-restaurante_japones = Restaurante("Japa", "Japonesa")
-
-restaurante_mexicano.alternar_estado()
+restaurante_praca.receber_avaliacao("Teste 1", 8)
+restaurante_praca.receber_avaliacao("Teste 2", 4)
+restaurante_praca.receber_avaliacao("Teste 3", 3)
 
 
 def main():
-    """
-    Main function to run the script.
+    """Função principal do programa.
+    Esta função é responsável por criar um restaurante e listar os restaurantes cadastrados.
     """
     Restaurante.listar_restaurantes()
 
