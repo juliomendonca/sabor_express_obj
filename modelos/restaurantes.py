@@ -61,10 +61,3 @@ class Restaurante:
             Ativo ou Inativo: O status do restaurante.
         """
         return "Ativo" if self._ativo else "Inativo"
-
-
-restaurante_praca = Restaurante("praça", "Gourmet")
-restaurante_praca.alternar_estado()
-restaurante_pizza = Restaurante("pizza express", "Italiana")
-
-Restaurante.listar_restaurantes()
